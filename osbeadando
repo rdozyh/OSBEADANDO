@@ -1,0 +1,32 @@
+#!/bin/bash
+
+dowload() {
+curl ipinfo.io/$1 -o r.json
+ }
+
+
+filter() {
+
+if [ ! -f r.json ]
+then
+echo 'Nem létezik a file' 
+exit
+fi
+ 
+cat r.json|jq .org|tr -d \"
+
+}
+
+while getopts :d:f opt
+	do
+	case $opt in
+		d) dowload $OPTARG;;
+		f) filter ;;
+		:) echo "A $OPTARG kapcsoló vár értéket";;
+		?) echo "Ismeretlen opció";;
+	esac
+done
+
+
+
+  
